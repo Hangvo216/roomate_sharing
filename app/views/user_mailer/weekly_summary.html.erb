@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Weekly Summary</title>
+  <style type="text/css">
+    h1 {
+      text-align: center;
+    }
+    h3 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<table width="650" id="main" border="0">
+  <thead id="header">
+    <tr>
+      <th colspan="2"><h1 id="welcome">Weekly Summary</h1></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tr>
+    <td>
+      <h1 id="balances"><a href="http://www.apartmentalize.info/claims">Balances</a></h1>
+    </td>
+
+      <td>
+        Total: <%= @claim_balance.total %>
+        <% @claim_balance.user_balances.each do |name, balance| %>
+          <p>
+            <%= name %>
+            <%= balance %>
+          </p>
+        <% end %>
+      </td>
+    </td>
+  </tr>
+
+  <tr>
+
+    <td><h1><a href="http://www.apartmentalize.info/chores">Chores</a></h1></td>
+
+    <td>
+      <% @user.chores.each do |c| %>
+        <p><%= c.title %></p>
+    <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <h3>
+        <a href="apartmentalize.info">Visit the site</a>
+      </h3>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <%= link_to 'Unsubscribe', "http://www.apartmentalize.info/users/edit" %>
+    </td>
+  </tr>
+
+</table>
+
+</body>
+
+
+</html>

@@ -1,0 +1,22 @@
+<% page_title 'Apartmentalize - Edit Claim' %>
+
+<div class="row">
+  <div class="span4 offset4">
+    <div class="well">
+      <%= form_for @claim, :html => {class: 'edit-claim-form'} do |f| %>
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+
+        <%= f.label :description %>
+        <%= f.text_field :description %>
+
+        <%= f.label :amount %>
+        <%= f.number_field :amount %>
+
+        <%= f.submit 'Save changes', class: 'btn btn-large' %>
+      <% end %>
+      <%= link_to 'Delete this claim', claim_path(@claim),
+                  method: :delete, confirm: 'Are you sure?' %>
+    </div>
+  </div>
+</div>

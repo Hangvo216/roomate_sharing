@@ -1,0 +1,61 @@
+<div class="span5">
+    <div class="well">
+
+      <div id="group-info">
+        <h1> Group Information </h1>
+        <div class="identifier">
+          <h3>Identifier:</h3>
+          <p><%= @group.identifier %></p>
+        </div>
+
+        <div class="members">
+          <h3>Members</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <% @group.users.each do |u| %>
+              <tr>
+                <% if u.id != current_user.id %>
+                  <td><%= u.name %></td>
+                  <td><%= u.email %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+
+        <div class="invitations">
+          <h3>Invite someone</h3>
+          <p><%= link_to 'Send an invitation',
+                   new_user_invitation_path, class: 'btn' %></p>
+        </div>
+
+        <div class="important-people">
+          <h3>Important People</h3>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+              <% @group.managers.each do |m| %>
+                <tr>
+                  <td><%= m.title %></td>
+                  <td><%= m.name %></td>
+                  <td><%= link_to 'View info', manager_path(m) %></td>
+                </tr>
+              <% end %>
+          </table>
+          <%= link_to 'Add', new_manager_path, class: 'btn' %>
+
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,91 @@
+<% page_title 'Apartmentalize - Claims' %>
+
+<div class="row">
+
+  <div class="span3">
+
+    <table class="table">
+      <thead>
+        <th>Total Balance</th>
+        <th id="total-balance"><%= @claim_balance.total %></th>
+      </thead>
+
+      <% @claim_balance.user_balances.each do |name, balance| %>
+        <tr>
+          <td><%= name %></td>
+          <td id="<%= name %>-balance"><%= balance %></td>
+        </tr>
+
+      <% end %>
+    </table>
+
+
+    <div class="hide-button-wrapper">
+      <button class="btn hide-button create-button active">Create</button>
+      <button class="btn hide-button search-button">Search</button>
+    </div>
+      <div class="claim-form-wrapper"><%= render 'new_claim_form' %></div>
+      <div class="search-wrapper"><%= render 'claim_search_form' %></div>
+      <div class="mark-as-paid-error"></div>
+  </div>
+
+  <div class="span9">
+    <table class="claims-table table table-hover">
+      <%= paginate @claims %>
+      <thead>
+        <th><%= sortable "paid", "Paid" %></th>
+        <th><%= sortable "owed_to", "Owed to" %></th>
+        <th><%= sortable "owed_by", "Owed by" %></th>
+        <th><%= sortable "title" %></th>
+        <th><%= sortable "amount" %></th>
+        <th><%= sortable "created_at", "Created on" %></th>
+      </thead>
+
+      <%= render partial: 'claim', collection: @claims %>
+
+    </table>
+  </div>
+
+</div>
+
+<%= content_for :extra_footer do %>
+
+  <script type="text/javascript">
+
+    jQuery(function() {
+      $('.search-wrapper').hide();
+      $('#claim-form-errors').hide();
+      $('.create-button').addClass('active');
+      window.formManipulations();
+      $('#datepicker-created-min').datepicker();
+      $('#datepicker-created-max').datepicker();
+      $('#datepicker-paid-min').datepicker();
+      $('#datepicker-paid-max').datepicker();
+      var claimColor = new ClaimColor();
+      claimColor.addColorToClaims();
+
+      $('#claim-search-intro').on('click', function() {
+        introJs(".claim-search-form").start();
+      })
+
+      $('#new-claim-intro').on('click', function() {
+        introJs('.new-claim-form').start();
+      })
+
+      $('#new_claim').submit(function(e) {
+        e.preventDefault();
+        c = new ClaimController();
+        c.submitForm();
+      });
+
+      $('.mark-as-paid-link').click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        c = new ClaimController();
+        c.markPaid($(this), c.claimView.updateIndexPageAfterPaid);
+      });
+
+    });
+
+  </script>
+<% end %>

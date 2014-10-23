@@ -1,0 +1,95 @@
+<%= form_tag({:controller => 'claims', :action => 'index' },
+                    {:method => 'get', :class => 'claim-search-form'}) do |f| %>
+
+
+
+  <%= hidden_field_tag :direction, params[:direction] %>
+  <%= hidden_field_tag :sort, params[:sort] %>
+
+  <div data-intro="<%= t('owe-buttons')%>" data-step="1">
+    <%= label_tag "to-receive",
+                  "To receive from",
+                  class: 'user-label btn'
+    %>
+
+    <%= check_box_tag "z[to_receive]", true, params[:z][:to_receive],
+                  {id: 'to-receive', :hidden => true} %>
+
+
+    <%= label_tag 'to-pay', 'To pay', class: 'user-label btn' %>
+    <%= check_box_tag "z[to_pay]", true, params[:z][:to_pay],
+                  { :id => "to-pay", :hidden => true } %>
+  </div>
+
+
+  <div class="search-button-wrapper"
+        data-intro="<%= t('user-buttons') %>"
+        data-step="2">
+    <% other_users(current_user).each do |u| %>
+        <%= label_tag "#{u.id}-checkbox", "#{u.name}", class: 'user-label btn' %>
+        <%= check_box_tag "z[user_id][]", u.id, params[:z][:user_id].include?(u.id.to_s),
+                  { :id => "#{u.id}-checkbox", :hidden => true } %>
+    <% end %>
+  </div>
+
+
+  <div class="search-button-wrapper"
+        data-intro="<%= t('paid-status') %>"
+        data-step="3">
+      <%= label_tag 'unpaid-checkbox', 'Unpaid', class: 'include-paid btn' %>
+      <%= check_box_tag 'z[include_unpaid]', true, params[:z][:include_unpaid],
+                {:id => "unpaid-checkbox", :hidden => true} %>
+
+      <%= label_tag 'paid-checkbox', 'Paid', class: 'include-paid btn' %>
+      <%= check_box_tag 'z[include_paid]', true, params[:z][:include_paid],
+                {:id => "paid-checkbox", :hidden => true} %>
+  </div>
+
+
+  <div class="field" data-intro="<%= t('title-desc-cont') %>" data-step="4">
+    <%= text_field_tag 'z[title_or_description_cont]', params[:z][:title_or_description_cont],
+            placeholder: 'Title or description contains...',
+            class: 'title-desc-cont' %>
+  </div>
+
+
+  <div class="field" data-intro="<%= t('amount-between') %>" data-step="5">
+    <%= label_tag 'z[amount_min]', 'Amount between'%>
+    <%= text_field_tag 'z[amount_min]', params[:z][:amount_min],
+          class: 'between-search' %>
+    <%= label_tag 'z[amount_max]', 'and', class: 'between-text' %>
+    <%= text_field_tag 'z[amount_max]', params[:z][:amount_max],
+          class: 'between-search' %>
+  </div>
+
+  <div class="field" data-intro="<%= t('created-between') %>" data-step="6">
+    <%= label_tag 'z[date_created_min]', 'Created between' %>
+    <%= text_field_tag 'z[date_created_min]', params[:z][:date_created_min],
+          id: 'datepicker-created-min', class: 'between-search' %>
+    <%= label_tag 'z[date_created_max]', 'and', class: 'between-text' %>
+    <%= text_field_tag 'z[date_created_max]', params[:z][:date_created_max],
+          id: 'datepicker-created-max', class: 'between-search' %>
+  </div>
+
+  <div class="field" data-intro="<%= t('paid-between') %>" data-step="7">
+    <%= label_tag 'z[date_paid_min]', 'Paid between' %>
+    <%= text_field_tag 'z[date_paid_min]', params[:z][:date_paid_min],
+          id: 'datepicker-paid-min', class: 'between-search' %>
+    <%= label_tag 'z[date_paid_max]', 'and', class: 'between-text' %>
+    <%= text_field_tag 'z[date_paid_max]', params[:z][:date_paid_max],
+          id: 'datepicker-paid-max', class: 'between-search' %>
+  </div>
+
+  <div class="actions"><%= submit_tag "Search Claims",
+              class: 'btn submit-search-button' %></div>
+
+  <div id="clear-button" data-intro="<%= t('clear-button') %>" data-step="8">
+    <%= link_to 'Clear', claims_path %>
+  </div>
+
+  <div id="claim-search-intro">
+    <span>|</span>
+    <p>Help</p>
+  </div>
+
+<% end %>

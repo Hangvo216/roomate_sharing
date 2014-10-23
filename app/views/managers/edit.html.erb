@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="span6 offset3">
+    <div class="chore-box well">
+      <%= simple_form_for(@manager) do |f| %>
+        <%= f.input :title, error: false, value: @manager.title %>
+        <%= f.input :name, error: false, value: @manager.name %>
+        <%= f.input :email, error: false, value: @manager.email %>
+        <%= f.input :address, error: false, value: @manager.address %>
+        <%= f.input :phone_number, error: false, value: @manager.phone_number %>
+        <%= f.button :submit, 'Save Changes',
+              class: 'btn btn-large save-manager-button' %>
+      <% end %>
+
+      <%= link_to 'Delete', manager_path(@manager), method: 'delete',
+              confirm: 'Are you sure?' %>
+
+    </div>
+  </div>
+</div>
